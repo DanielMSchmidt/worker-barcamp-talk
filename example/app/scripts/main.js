@@ -1,5 +1,7 @@
 'use strict';
 
+var l = window.loader;
+
 var Product = React.createClass({
   propTypes: {
     obj: React.PropTypes.shape({
@@ -22,7 +24,7 @@ var Product = React.createClass({
     }
   },
 
-  render: function () {
+  render: function() {
     return (
       <div className="product">
         <h3>{ this.props.obj.name } <span>{ this.props.obj.price } €</span></h3>
@@ -36,7 +38,7 @@ var App = React.createClass({
   propTypes: {
     content: React.PropTypes.array
   },
-  render: function () {
+  render: function() {
     return (
       <div className="stream">
         { this.props.content.map(function(product){
@@ -47,18 +49,27 @@ var App = React.createClass({
   }
 });
 
-var render = function (products) {
+var render = function() {
   React.render(
-    <App content={products} />,
+    <App content={l.getAllProducts()} />,
     document.getElementById('container')
   );
 };
 
 $(function() {
-  var l = window.loader;
   render([]);
 
   l.getNextPage().then(function() {
-    render(l.getAllProducts());
+    render();
+  });
+
+  $(window).on('scroll', function() {
+    var border = $(document).height() * 0.9;
+    if ($(window).scrollTop() > border && !l.isLoading()) {
+
+      l.getNextPage().then(function() {
+        render();
+      });
+    }
   });
 })
