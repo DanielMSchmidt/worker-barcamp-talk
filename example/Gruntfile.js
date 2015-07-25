@@ -41,6 +41,10 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
+      babel: {
+        files: ['<%= config.app %>/scripts/{,**/}*.js'],
+        tasks: ['newer:babel:dist']
+      },
       jstest: {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['test:watch']
@@ -65,6 +69,22 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= config.app %>/images/{,*/}*'
         ]
+      }
+    },
+
+    babel: {
+      options: {
+          compact: false,
+          experimental: true,
+          sourceMap: true
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.app %>/scripts',
+          src: ['{,**/}*.js'],
+          dest: '.tmp/scripts'
+        }]
       }
     },
 
@@ -376,7 +396,8 @@ module.exports = function (grunt) {
         'sass',
         'copy:styles',
         'imagemin',
-        'svgmin'
+        'svgmin',
+        'babel'
       ]
     }
   });

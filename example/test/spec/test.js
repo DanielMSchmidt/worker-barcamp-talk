@@ -1,4 +1,4 @@
-/* global describe, it */
+/* global describe, it, afterEach, done, expect */
 
 (function () {
   'use strict';
