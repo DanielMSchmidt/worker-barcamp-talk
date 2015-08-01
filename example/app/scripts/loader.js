@@ -25,12 +25,20 @@ var baseProductsUrl = function(page) {
   },
   isLoading = function() {
     return loading;
+  },
+  getShop = function(subdomain) {
+    return $.get('https://productmate.de/api/shops/' + subdomain);
+  },
+  getShopProducts = function(subdomain) {
+    return $.get('https://productmate.de/api/products?subdomain=' + subdomain);
   };
 
 
 window.loader = {
-  getNextPage: getNextPage,
-  getAllProducts: getAllProducts,
-  reset: reset,
-  isLoading: isLoading,
+  getNextPage,
+  getAllProducts,
+  reset,
+  isLoading,
+  getShop,
+  getShopProducts
 };

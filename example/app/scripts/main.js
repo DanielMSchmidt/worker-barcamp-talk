@@ -3,8 +3,39 @@
 var l = window.loader;
 
 var Product = React.createClass({
+  getInitialState: function() {
+    return {
+      clicked: false,
+    };
+  },
+
+  handleClick: function(e) {
+    e.stopPropagation();
+
+    this.setState({clicked: !this.state.clicked});
+  },
+
+  render: function() {
+    if (this.state.clicked) {
+      return (
+        <div onClick={this.handleClick}>
+          <ProductBacksite product={this.props.product} />
+        </div>
+      );
+    } else {
+      return (
+        <div onClick={this.handleClick}>
+          <ProductFrontsite product={this.props.product}  />
+        </div>
+      );
+    }
+  }
+});
+
+
+var ProductFrontsite = React.createClass({
   propTypes: {
-    obj: React.PropTypes.shape({
+    product: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
       price: React.PropTypes.string.isRequired,
       shop_id: React.PropTypes.number.isRequired,
@@ -15,9 +46,9 @@ var Product = React.createClass({
   },
 
   renderImage: function() {
-    if (this.props.obj.primary_image) {
+    if (this.props.product.primary_image) {
       return (
-        <img src={this.props.obj.primary_image.url} />
+        <img src={this.props.product.primary_image.url} />
       );
     } else {
       return (<img />);
@@ -27,8 +58,96 @@ var Product = React.createClass({
   render: function() {
     return (
       <div className="product">
-        <h3>{ this.props.obj.name } <span>{ this.props.obj.price }</span></h3>
+        <h3>{ this.props.product.name } <span>{ this.props.product.price }</span></h3>
         {this.renderImage()}
+      </div>
+    );
+  }
+});
+
+var ProductBacksite = React.createClass({
+  getInitialState: function() {
+    return {
+      shopLoaded: false,
+      shopProductsLoaded: false,
+      shop: {},
+      shopProducts: {},
+    };
+  },
+
+  componentWillMount: function() {
+    var shop = this.props.product.shop_subdomain;
+
+    l.getShop(shop).then(function(shop) {
+      this.setState({
+        shop,
+        shopLoaded: true,
+      });
+    }.bind(this));
+
+    l.getShopProducts(shop).then(function(res) {
+      var shopProducts = res.results;
+
+      this.setState({
+        shopProducts,
+        shopProductsLoaded: true,
+      });
+    }.bind(this));
+  },
+
+  renderShop: function() {
+    if (this.state.shopProductsLoaded) {
+      var s = this.state.shop;
+      return (
+        <div>
+          <h3>{ s.name }</h3>
+          <dl>
+            <dt>Street</dt>
+            <dd>{ s.street }</dd>
+            <dt>ZIP</dt>
+            <dd>{ s.zipcode }</dd>
+            <dt>City</dt>
+            <dd>{ s.city }</dd>
+            <dt>Phone</dt>
+            <dd>{ s.phone }</dd>
+            <dt>Description</dt>
+            <dd>{ s.description }</dd>
+          </dl>
+        </div>
+      );
+    } else {
+      return (
+        <div className="spinner" />
+      );
+    }
+  },
+
+  renderShopProducts: function() {
+    if (this.state.shopProductsLoaded) {
+      return (
+        <div>
+          { this.state.shopProducts.map(function(p){
+            return <Product key={'shop-product-' + p.id} product={p} />;
+          }) }
+        </div>
+      );
+    } else {
+      return (
+        <div className="spinner" />
+      );
+    }
+  },
+
+  render: function() {
+    return (
+      <div className="product">
+        <div className="row">
+          { this.renderShop() }
+        </div>
+
+        <div className="row">
+        { this.renderShopProducts() }
+        </div>
       </div>
     );
   }
@@ -41,8 +160,8 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="stream">
-        { this.props.content.map(function(product){
-          return <Product obj={product} />;
+        { this.props.content.map(function(p){
+          return <Product key={p.id} product={p} />;
         }) }
       </div>
     );
