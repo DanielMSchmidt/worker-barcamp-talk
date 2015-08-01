@@ -1,3 +1,9 @@
-window.jankify = function() {
-  // TODO: takes a promise and hooks an excessive calculation on the success callback
+'use strict';
+
+window.jank = function() {
+  // an excessive calculation to jank the browser
+  var len = 5000000;
+  do {
+    Math.sin(len)
+  } while (len--);
 };
