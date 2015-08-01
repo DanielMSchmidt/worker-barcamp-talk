@@ -387,7 +387,8 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'sass:server',
-        'copy:styles'
+        'copy:styles',
+        'babel'
       ],
       test: [
         'copy:styles'
