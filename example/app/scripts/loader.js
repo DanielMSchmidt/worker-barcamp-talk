@@ -1,6 +1,6 @@
 'use strict';
 var baseProductsUrl = function(page) {
-    return 'https://productmate.de/api/products?page=' + page + '&page_limit=40&seed=0.800341673893854';
+    return 'https://productmate.de/api/products?page=' + page + '&page_limit=10&seed=0.800341673893854';
   },
   currentPage = 1,
   loading = false,
