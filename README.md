@@ -2,9 +2,7 @@
 
 ## Outline
 
-<== current selection
-
-### Balanced (<==)
+### Balanced
 - Intro
   - Show lagging app
   - Explain measurement and problem
