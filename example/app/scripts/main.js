@@ -27,7 +27,7 @@ var Product = React.createClass({
   render: function() {
     return (
       <div className="product">
-        <h3>{ this.props.obj.name } <span>{ this.props.obj.price } €</span></h3>
+        <h3>{ this.props.obj.name } <span>{ this.props.obj.price }</span></h3>
         {this.renderImage()}
       </div>
     );
