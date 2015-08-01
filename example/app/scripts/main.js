@@ -1,6 +1,7 @@
 'use strict';
 
-var l = window.loader;
+var l = window.loader,
+    jank = window.jank;
 
 var Spinner = React.createClass({
 
@@ -27,6 +28,7 @@ var Product = React.createClass({
   handleClick: function(e) {
     e.stopPropagation();
 
+    console.log(jank());
     this.setState({clicked: !this.state.clicked});
   },
 
@@ -94,6 +96,8 @@ var ProductBacksite = React.createClass({
     var shop = this.props.product.shop_subdomain;
 
     l.getShop(shop).then(function(shop) {
+
+      console.log(jank());
       this.setState({
         shop,
         shopLoaded: true,
@@ -103,6 +107,7 @@ var ProductBacksite = React.createClass({
     l.getShopProducts(shop).then(function(res) {
       var shopProducts = res.results;
 
+      console.log(jank());
       this.setState({
         shopProducts,
         shopProductsLoaded: true,
