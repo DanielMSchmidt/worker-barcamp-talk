@@ -1,7 +1,12 @@
 'use strict';
 
 var l = window.loader,
-    jank = window.jank;
+    jank = window.jank,
+    jankWorker = new Worker('scripts/worker.js');
+
+jankWorker.onmessage = function(e) {
+  console.log('Worker: ' + e.data);
+};
 
 var Spinner = React.createClass({
 
@@ -28,7 +33,7 @@ var Product = React.createClass({
   handleClick: function(e) {
     e.stopPropagation();
 
-    console.log(jank());
+    jankWorker.postMessage('Do something');
     this.setState({clicked: !this.state.clicked});
   },
 
@@ -97,7 +102,7 @@ var ProductBacksite = React.createClass({
 
     l.getShop(shop).then(function(shop) {
 
-      console.log(jank());
+      jankWorker.postMessage('Do something');
       this.setState({
         shop,
         shopLoaded: true,
@@ -107,7 +112,7 @@ var ProductBacksite = React.createClass({
     l.getShopProducts(shop).then(function(res) {
       var shopProducts = res.results;
 
-      console.log(jank());
+      jankWorker.postMessage('Do something');
       this.setState({
         shopProducts,
         shopProductsLoaded: true,

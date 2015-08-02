@@ -1,6 +1,7 @@
 'use strict';
 var num = 0;
-window.jank = function() {
+
+var jank = function() {
   // an excessive calculation to jank the browser
   var len = 5000000;
   do {
@@ -10,3 +11,11 @@ window.jank = function() {
 
   return `My computation number ${ num } is done`;
 };
+
+if (typeof window !== 'undefined') {
+  window.jank = jank;
+}
+
+if (typeof self !== 'undefined') {
+  self.jank = jank;
+}
