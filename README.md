@@ -8,7 +8,8 @@
 
 ## Outline
 
-### Balanced
+### Balanced 
+
 - Intro
   - Show lagging app
   - Explain measurement and problem
@@ -34,3 +35,7 @@
   - in another thread (web worker)
   - outside of the context (service worker)
     - save as much of the state as possible in the service worker
+
+## Profiling
+
+- to load the timeline data into your chrome timeline, open it in the developer tools and rightclick. Then select "Load Timeline Data" and load the file
