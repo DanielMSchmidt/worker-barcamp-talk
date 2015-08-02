@@ -31,14 +31,32 @@ var baseProductsUrl = function(page) {
   },
   getShopProducts = function(subdomain) {
     return $.get('https://productmate.de/api/products?subdomain=' + subdomain);
+  },
+  getCachableProductRequests = function(count) {
+    var result = [];
+    for (var i = 1; i <= count; i++) {
+      result.push(baseProductsUrl(i));
+    }
+
+    return result;
   };
 
 
-window.loader = {
+var loader = {
   getNextPage,
   getAllProducts,
   reset,
   isLoading,
   getShop,
-  getShopProducts
+  getShopProducts,
+  getCachableProductRequests
 };
+
+
+if (typeof window !== 'undefined') {
+  window.loader = loader;
+}
+
+if (typeof self !== 'undefined') {
+  self.loader = loader;
+}
