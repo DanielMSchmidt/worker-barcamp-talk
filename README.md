@@ -1,5 +1,11 @@
 # Worker Campfire Barcamp 2015
 
+## TODO
+
+- Read [this](https://gauntface.com/blog/2014/12/15/push-notifications-service-worker) 
+- Build a working service worker which precaches the next 10 pages, their images and their shops
+- Build another service worker which simulates new products (fetched with another seed) by showing a notification and appending them on notificationclick
+
 ## Outline
 
 ### Balanced
